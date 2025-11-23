@@ -1,0 +1,295 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Emporium — Hero Sparks</title>
+  <style>
+    :root{
+      --bg:#060406;
+      --accent:#f6c85e;
+      --muted:#d9d4c2;
+      --card:#0f0d0f;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
+    body{background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+    /* header */
+    header{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#ffd166,#ffb703);display:flex;align-items:center;justify-content:center;color:#111;font-weight:700}
+    nav a{color:rgba(255,255,255,0.9);text-decoration:none;margin-left:14px;font-size:14px}
+    /* hero */
+    .hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(0.45);z-index:0}
+    /* canvas sits above bg and below content */
+    #bubbleCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:5;display:block;touch-action:none}
+    .hero-content{position:relative;z-index:20;text-align:center;padding:40px}
+    h1{font-size:48px;margin:0;color:var(--accent);text-shadow:0 6px 20px rgba(0,0,0,0.6)}
+    p.lead{margin-top:12px;color:rgba(255,255,255,0.88);max-width:800px;margin-left:auto;margin-right:auto}
+    .cta{margin-top:22px;display:flex;gap:12px;justify-content:center}
+    .btn{background:var(--accent);color:#111;padding:12px 18px;border-radius:999px;border:0;cursor:pointer;font-weight:600}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.12);padding:11px 16px;border-radius:999px;color:rgba(255,255,255,0.9)}
+    /* products */
+    #products{max-width:1100px;margin:40px auto;padding:40px 20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .card h4{margin:6px 0 0 0}
+    /* contact block (added) */
+    #contact{max-width:1100px;margin:40px auto;padding:30px 20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.03)}
+    #contact h2{color:var(--accent);margin-bottom:8px}
+    #contact .contact-grid{display:flex;flex-wrap:wrap;gap:18px}
+    #contact .contact-card{flex:1 1 260px;min-width:220px;padding:12px;border-radius:10px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.02)}
+    #contact a{color:var(--accent);text-decoration:none}
+    footer{padding:30px 0;color:rgba(255,255,255,0.4);text-align:center}
+    /* small helper for instructions */
+    .hint{font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px}
+    @media (max-width:640px){
+      h1{font-size:34px}
+      #contact .contact-grid{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">PW</div>
+        <div>
+          <div style="font-weight:700">Poorneshwari Emporium</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6)">Premium Collections</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#products">Shop</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <!-- use your uploaded image path exactly as requested -->
+    <div class="hero-bg" id="heroBg" style="background-image:url('/mnt/data/2e92edf0-42fd-4f1c-b031-b2e419674874.jpg')"></div>
+
+    <!-- canvas for bubbles -->
+    <canvas id="bubbleCanvas" width="800" height="600"></canvas>
+
+    <div class="hero-content">
+      <h1>Grand Opening</h1>
+      <p class="lead">Poorneshwari Ladies Emporium — curated premium collections, bespoke services and limited editions.</p>
+      <div class="cta">
+        <button class="btn" id="shopNow">Shop Now</button>
+      </div>
+      <div class="hint">Tap/click anywhere on the page to make all bubbles pop and float like sparks.</div>
+    </div>
+  </section>
+
+  <section id="products">
+    <h2 style="color:var(--accent)">Featured Collections</h2>
+    <div class="grid" id="productGrid">
+      <div class="card"><div style="height:120px;background:linear-gradient(180deg,#3b2f1b,#2a1f12);border-radius:8px"></div><h4>Artisan Piece 1</h4><div style="margin-top:6px;color:rgba(255,255,255,0.6)">Hand-picked limited edition</div></div>
+      <div class="card"><div style="height:120px;background:linear-gradient(180deg,#3b2f1b,#2a1f12);border-radius:8px"></div><h4>Artisan Piece 2</h4></div>
+      <div class="card"><div style="height:120px;background:linear-gradient(180deg,#3b2f1b,#2a1f12);border-radius:8px"></div><h4>Artisan Piece 3</h4></div>
+      <div class="card"><div style="height:120px;background:linear-gradient(180deg,#3b2f1b,#2a1f12);border-radius:8px"></div><h4>Artisan Piece 4</h4></div>
+    </div>
+  </section>
+
+  <!-- ADDED CONTACT DETAILS (no other sections changed) -->
+  <section id="contact" aria-label="Contact">
+    <h2>Contact & Visit</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <strong>Address</strong>
+        <div style="margin-top:6px;color:rgba(255,255,255,0.8)">Select Talkies Lane,<br>Hanuman Temple, Macha Bolarum,<br>Secunderabad - 500010</div>
+      </div>
+      <div class="contact-card">
+        <strong>Phone</strong>
+        <div style="margin-top:6px"><a href="tel:9347170325">+91 93471 70325</a></div>
+      </div>
+      <div class="contact-card">
+        <strong>EMAIL</strong>
+        <div style="margin-top:6px"><a href="mailto:brightwayindia2025@gmail.com">EMAIL</a></div>
+      </div>
+      <div class="contact-card">
+        <strong>Opening Hours</strong>
+        <div style="margin-top:6px;color:rgba(255,255,255,0.8)">
+          Mon – Sat: 10:00 AM – 8:00 PM<br>
+          Sunday: 11:00 AM – 6:00 PM
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Poorneshwari Ladies Emporium — Contact: <a href="tel:9347170325" style="color:var(--accent)">9347170325</a>
+  </footer>
+
+<script>
+/*
+  Bubble spark system — EXACTLY as in your working version (no changes to graphics/physics).
+  Only contact block above was added; everything else is untouched.
+*/
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const canvas = document.getElementById('bubbleCanvas');
+const ctx = canvas.getContext('2d');
+let dpr = window.devicePixelRatio || 1;
+
+function fitCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.round(rect.width * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function getRect() { return canvas.getBoundingClientRect(); }
+
+window.addEventListener('resize', () => {
+  fitCanvas();
+});
+fitCanvas();
+
+/* Bubble class */
+class Bubble {
+  constructor(x,y,r, color){
+    this.x = x; this.y = y; this.r = r;
+    this.opacity = 1;
+    this.pop = false;
+    this.vx = 0; this.vy = 0;
+    this.color = color || {r:255,g:220,b:120};
+    this.birth = Date.now();
+  }
+}
+
+/* Store bubbles here */
+let bubbles = [];
+
+/* Build initial bubbles distributed across the hero area */
+function buildBubbles() {
+  const rect = getRect();
+  bubbles = [];
+  const base = Math.round(Math.max(90, Math.min(360, (rect.width * rect.height) / 9000)));
+  for (let i = 0; i < base; i++) {
+    const x = Math.random() * rect.width;
+    const y = Math.random() * rect.height * 0.7 + rect.height * 0.05;
+    const r = 3 + Math.random() * 7;
+    const shade = 200 + Math.floor(Math.random() * 55);
+    bubbles.push(new Bubble(x,y,r, {r:255,g:shade,b:60}));
+  }
+}
+buildBubbles();
+
+/* Draw loop */
+let raf;
+function draw() {
+  const rect = getRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+
+  for (let i = 0; i < bubbles.length; i++){
+    const b = bubbles[i];
+    if (b.pop) {
+      b.x += b.vx;
+      b.y += b.vy;
+      b.vx *= 0.995;
+      b.vy *= 0.997;
+      b.r += 0.08;
+      b.opacity -= 0.009;
+    }
+
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, Math.max(0.2, b.r), 0, Math.PI * 2);
+    const grad = ctx.createRadialGradient(b.x - b.r*0.2, b.y - b.r*0.25, Math.max(1,b.r*0.1), b.x, b.y, Math.max(1,b.r*1.2));
+    const alpha = Math.max(0, Math.min(1, b.opacity));
+    grad.addColorStop(0, `rgba(255,245,200,${alpha})`);
+    grad.addColorStop(0.6, `rgba(255,210,90,${alpha*0.95})`);
+    grad.addColorStop(1, `rgba(140,90,20,${alpha*0.06})`);
+    ctx.fillStyle = grad;
+    ctx.fill();
+  }
+
+  bubbles = bubbles.filter(b => (b.opacity > 0.02) && (b.y > -100) && (b.x > -200 && b.x < rect.width + 200));
+  raf = requestAnimationFrame(draw);
+}
+draw();
+
+/* local pop on canvas click (keeps original behavior) */
+canvas.addEventListener('click', function(e){
+  const rect = getRect();
+  const local = {x: e.clientX - rect.left, y: e.clientY - rect.top};
+  let nearest = null, nd = Infinity;
+  for (const b of bubbles){
+    const dx = b.x - local.x, dy = b.y - local.y, d = dx*dx + dy*dy;
+    if (d < nd) { nd = d; nearest = b; }
+  }
+  if (nearest && nd < Math.max(1600, (nearest.r+40)*(nearest.r+40))) {
+    nearest.pop = true;
+    nearest.vx = (Math.random()-0.5) * 2.2;
+    nearest.vy = -(1 + Math.random()*2.4);
+    for (let i=0;i<6;i++){
+      const nb = new Bubble(nearest.x + (Math.random()-0.5)*10, nearest.y + (Math.random()-0.5)*10, 0.9 + Math.random()*2);
+      nb.pop = true; nb.vx = (Math.random()-0.5)*3.5; nb.vy = -Math.random()*3 - 1.1; nb.opacity = 1;
+      bubbles.push(nb);
+    }
+  }
+});
+
+/* GLOBAL: pop all bubbles at once and make them float across screen (fires when user clicks/touches anywhere) */
+function popAllAtOnce(clientX, clientY) {
+  const rect = getRect();
+  const originX = (typeof clientX === 'number') ? (clientX - rect.left) : (rect.width/2);
+  const originY = (typeof clientY === 'number') ? (clientY - rect.top) : (rect.height*0.35);
+
+  for (const b of bubbles){
+    if (b.x >= -60 && b.x <= rect.width + 60 && b.y >= -120 && b.y <= rect.height + 120){
+      b.pop = true;
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.6 + Math.random() * 3.4;
+      const biasUp = 1.0 + Math.random() * 2.4;
+      b.vx = Math.cos(angle) * speed * (0.6 + Math.random()*0.9);
+      b.vy = Math.sin(angle) * speed * (0.2 + Math.random()*0.7) - biasUp;
+      b.opacity = 1;
+      b.r *= 1 + Math.random()*0.4;
+    }
+  }
+
+  const totalSparks = 110;
+  for (let i=0;i<totalSparks;i++){
+    const angle = (Math.random() * Math.PI) - (Math.PI*0.5) + (Math.random()*0.8 - 0.4);
+    const speed = 0.8 + Math.random() * 6.2;
+    const sx = originX + (Math.random()-0.5) * 160;
+    const sy = originY + (Math.random()-0.5) * 80;
+    const nb = new Bubble(sx, sy, 0.9 + Math.random()*2.6);
+    nb.pop = true;
+    nb.vx = Math.cos(angle) * speed * (0.6 + Math.random());
+    nb.vy = Math.sin(angle) * speed * (0.5 + Math.random()) - (1.6 + Math.random()*2.5);
+    nb.opacity = 1;
+    bubbles.push(nb);
+  }
+
+  const heroBg = document.getElementById('heroBg');
+  heroBg.style.transition = 'filter 420ms ease';
+  heroBg.style.filter = 'brightness(0.9)';
+  setTimeout(()=> heroBg.style.filter = 'brightness(0.45)', 420);
+}
+
+document.addEventListener('click', function(e){
+  popAllAtOnce(e.clientX, e.clientY);
+});
+document.addEventListener('touchstart', function(e){
+  const t = e.touches && e.touches[0];
+  popAllAtOnce(t ? t.clientX : undefined, t ? t.clientY : undefined);
+}, {passive:true});
+
+document.getElementById('shopNow').addEventListener('click', function(e){
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+});
+
+/* Keep bubbles sized correctly if viewport changes */
+let rebuildTimeout = null;
+window.addEventListener('orientationchange', () => { clearTimeout(rebuildTimeout); rebuildTimeout = setTimeout(()=>buildBubbles(), 500) });
+window.addEventListener('resize', () => { clearTimeout(rebuildTimeout); rebuildTimeout = setTimeout(()=>buildBubbles(), 220) });
+</script>
+
+</body>
+</html>
